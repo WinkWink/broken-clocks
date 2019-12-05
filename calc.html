@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tip calculator</title>
+    <link rel="stylesheet" type="text/css" href="calculator.css">
+
+</head>
+<body>
+    <div id="container">
+        <h1>Tip Calculator</h1>
+        <div id="calculator">
+            <form>
+                <label>
+                    How much was you bill?<br>
+                    $ <input type="text" id="billAmount">
+                </label>
+                <label>
+                    How was your service?<br>
+                    <select id="serviceQuality">
+                        <option disabled selected value="0">-- Choose an option --</option>
+                        <option value="0.4">40% - Outstanding</option>
+                        <option value="0.3">30% - Great</option>
+                        <option value="0.2">20% - Good</option>
+                        <option value="0.15">15% - OK</option>
+                    </select>
+                </label>
+                <label>
+                    How many people are sharing the bill?<br>
+                    <input type="text" id="totalPeople"> people
+                </label>
+                <button type="button" id="calculate">Calculate</button>
+            </form>
+        </div>
+        <div id="totalTip">
+            <sup>$</sup><span id="tip">0.00</span>
+            <small id="each">each</small>
+        </div>
+    </div>
+<script type="text/javascript">
+    //custom function 
+    function calculateTip(){
+
+        //store the data of the inputs
+        var billAmount = document.getElementById("billAmount").value;
+        var serviceQuality = document.getElementById("serviceQuality").value;
+        var totalPeople = document.getElementById("totalPeople").value;
+
+        //quick validation
+        if(billAmount === "" || serviceQuality === 0 ){
+            window.alert("Please enter some values");
+            return; //prevents function from continuing 
+        } 
+        //check to see if this input is empty or less than or equal to 1
+        if (totalPeople === '' || totalPeople <= 1) {
+            totalPeople = 1; 
+
+            document.getElementById("each").style.display = "none";
+        } else{
+            document.getElementById("each").style.display = "block";
+        }
+
+        //do some math 
+        var total = (billAmount * serviceQuality) / totalPeople;
+        total = Math.round(total *100) / 100;
+        total = total.toFixed(2);
+
+        //display the tip!
+        document.getElementById("totalTip").style.display = "block";
+        document.getElementById("tip").innerHTML = total;
+    }
+
+    document.getElementById("totalTip").style.display = "none";
+    document.getElementById("each").style.display = "none";
+
+    //clicking the button calls our custom function 
+    document.getElementById("calculate").onclick = function (){ calculateTip(); };
+
+</script>
+</body>
+</html>
